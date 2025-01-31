@@ -8,8 +8,12 @@ export default function Form(props) {
       <div className="button-container">{props.children}</div>
       <form className="Form">
         <label>
-          First Name:
+          Full Name:
           <input type="text" />
+          <label>
+            Location:
+            <input type="text" />
+          </label>
         </label>
         <label htmlFor="side">Which side?</label>
         <select id="side" name="side">
@@ -18,8 +22,14 @@ export default function Form(props) {
           <option value="Groom">Groom</option>
           <option value="Both">Both</option>
         </select>
+        <label>
+          Comments:
+          <input type="text" />
+        </label>
         {/* <form ref="form" onSubmit={this.handleSubmit}> */}
-        <button type="submit">Submit</button>
+        <button type="submit" id="button">
+          Submit
+        </button>
       </form>
     </>
   );
