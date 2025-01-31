@@ -1,1 +1,14 @@
-// please add your SQL queries here either if you using this file to seed your database or if you are using the SQL editor (copy them from supabase)
+// CREATE TABLE Users (
+//     id SERIAL PRIMARY KEY,
+//     first_name VARCHAR(255),
+//     surname VARCHAR(255),
+//     location TEXT,
+//     side TEXT
+// );
+
+// CREATE TABLE User_Comments (
+//     id SERIAL PRIMARY KEY,
+//     comment TEXT NOT NULL,
+//     user_id INT REFERENCES Users(id)
+// );
+
