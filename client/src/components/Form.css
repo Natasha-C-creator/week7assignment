@@ -1,0 +1,39 @@
+/* @media (max-width: 480px) {
+  .Section {
+    background-color: rgb(173, 167, 178);
+    border-style: solid;
+    border-color: pink;
+    opacity: 0.5;
+    font-family: "Raleway";
+    font-size: 1rem;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 50%;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 1px;
+      }
+} */
+
+.Section {
+    background-color: rgb(244, 209, 223);
+    border-style: solid;
+    border-color: rgb(79, 135, 92);
+    /* opacity: 0.5; */
+    font-family: "Raleway";
+    font-size: 22px;
+    font-size: 1rem;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    width: 50%;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(188, 176, 176, 0.1);
+    gap: 1px;
+  }
+  
