@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState } from "react";
+import Footer from "./components/Footer.jsx"
 
 export default function App() {
-  return(
-  <>
-  <h1>App</h1>
-  )
-  }
-  
+  return (
+    <>
+      <Footer />
+    </>
+  );
+}
