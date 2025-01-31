@@ -10,10 +10,10 @@ export default function Form(props) {
         <label>
           Full Name:
           <input type="text" />
-          <label>
-            Location:
-            <input type="text" />
-          </label>
+        </label>
+        <label>
+          Location:
+          <input type="text" />
         </label>
         <label htmlFor="side">Which side?</label>
         <select id="side" name="side">
@@ -24,7 +24,7 @@ export default function Form(props) {
         </select>
         <label>
           Comments:
-          <input type="text" />
+          <textarea rows="2" cols="25"></textarea>
         </label>
         {/* <form ref="form" onSubmit={this.handleSubmit}> */}
         <button type="submit" id="button">
