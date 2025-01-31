@@ -3,17 +3,18 @@ import "./CreateUserForm.css";
 export default function CreateUserForm(props) {
   return (
     <>
-      <h1 className="title">{props.title}</h1>
+      {/* <h1 className="title">{props.title}</h1>
       <h3 className="content">{props.content}</h3>
-      <div className="button-container">{props.children}</div>
-      <form className="CreateUserForm">
+      <div className="button-container">{props.children}</div> */}
+      <form id="createUserForm" className="CreateUserForm">
+      <h4> Create User Account </h4>
         <label>
           First Name:
-          <input type="text" />
+          <input type="text" id="name" placeholder="First Name" required />
         </label>
         <label>
           Surname:
-          <input type="text" />
+          <input type="text" id="name" placeholder="Surname" required />
         </label>
         <label>
           Location:
