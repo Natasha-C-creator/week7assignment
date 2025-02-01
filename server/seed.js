@@ -12,3 +12,14 @@
 //     user_id INT REFERENCES Users(id)
 // );
 
+// import pg from 'pg'
+// import dotenv from 'dotenv'
+// dotenv.config();
+
+db.query(`INSERT INTO users (first_name, surname, location) VALUES ($1, $2)`, [
+  "Tash",
+  "C",
+  "Ipswich",
+]);
+
+// db.query(`INSERT INTO messages (msg_name, content) VALUES ($1, $2)`,['hot take: ', 'I think oranges suck'])
