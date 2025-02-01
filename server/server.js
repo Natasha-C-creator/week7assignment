@@ -28,13 +28,18 @@ app.get("/Users", async (req, res) => {
   await res.json(query.rows);
 });
 
-app.post("/UserComments", async (req, res) => {
-  //   const data = req.body.formValues;
-  const query = await db.query("SELECT * FROM UserComments");
-  //   const query = await db.query(
-  //     `INSERT INTO UserComments (id, comments) VALUES ($1, $2, $3, $4)`,
-  //     [data.id, data.first_name, data.surname, data.comments]
-  //   );
-  //   await res.json(query.rows);
-  res.json({ message: "Comments loaded" });
+app.get("/usercomments", async (req, res) => {
+  const data = req.body.formValues;
+  const query = await db.query("SELECT * FROM usercomments");
+  await res.json(query.rows);
+});
+
+app.post("/usercomments", async (req, res) => {
+  const data = req.body.formValues;
+  // const query = await db.query("SELECT * FROM usercomments");
+  const query = await db.query(
+    `INSERT INTO usercomments (id, comment, user_id) VALUES ($1, $2, $3)`,
+    [data.id, data.comment, data.user_id]
+  );
+  await res.json(query.rows);
 });
