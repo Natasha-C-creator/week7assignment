@@ -12,16 +12,11 @@ export default function App() {
     <>
       <BrowserRouter>
         <Header />
-        <CreateUserForm />
-        <AddCommentForm />
         <Routes>
-          <Route
-            path="/components/:AddCommentForm"
-            element={<AddCommentForm />}
-          />
-          <Route path="/components/:Comments" element={<Comments />} />
+          <Route path="/" element={<CreateUserForm />} />
+          <Route path="/components/AddCommentForm" element={<AddCommentForm />}/>
+          <Route path="/components/Comments" element={<Comments />} />
         </Routes>
-        <Comments />
         <Footer />
       </BrowserRouter>
     </>
