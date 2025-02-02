@@ -54,7 +54,7 @@ export default function AddCommentForm() {
         <option value="">Select User</option>
         {users.map((user) => (
           <option key={user.id} value={user.id}>
-            {user.first_name} {user.surname}
+            {user.firstName} {user.surname}
           </option>
         ))}
       </select>

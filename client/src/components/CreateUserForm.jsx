@@ -1,5 +1,10 @@
 import { useState } from "react";
 import "./CreateUserForm.css";
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  "https://lkyksvqmbwigquiebvnu.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxreWtzdnFtYndpZ3F1aWVidm51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgzMjkxNjgsImV4cCI6MjA1MzkwNTE2OH0.wkBoQMyiQtIls4WHufxbyW237bIww0LTN5UDHFctd4w"
+);
 
 export default function CreateUserForm() {
   const [firstName, setFirstName] = useState("");
@@ -17,24 +22,44 @@ export default function CreateUserForm() {
       side,
     };
 
-    const response = await fetch("http://localhost:8080/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    console.log("Form Data:", formData);
 
-    if (response.ok) {
+    const { data, error } = await supabase
+      .from("users") // Replace with your actual table name
+      .insert([formData]);
+
+    if (error) {
+      console.error("Error inserting data:", error);
+      alert("Error creating user account. Please try again.");
+    } else {
+      console.log("Form Data:", data); // Logging the inserted data
       alert("Your user account was created!");
+
       setFirstName("");
       setSurname("");
       setLocation("");
       setSide("");
-    } else {
-      alert("Error creating user account. Please try again.");
     }
   };
+
+  // const response = await fetch("http://localhost:8080/UserComments", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(formData),
+  // });
+
+  //   if (response.ok) {
+  //     alert("Your user account was created!");
+  //     setFirstName("");
+  //     setSurname("");
+  //     setLocation("");
+  //     setSide("");
+  //   } else {
+  //     alert("Error creating user account. Please try again.");
+  //   }
+  // };
 
   return (
     <>
