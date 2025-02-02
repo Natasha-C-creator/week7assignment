@@ -51,6 +51,23 @@ app.post("/Users", async (req, res) => {
 
 app.get("/UserComments", async (req, res) => {
   const query = await db.query("SELECT * FROM UserComments");
+
+  
+app.get("/usercomments", async (req, res) => {
+  const data = req.body.formValues;
+  const query = await db.query("SELECT * FROM usercomments");
+  await res.json(query.rows);
+});
+
+app.post("/usercomments", async (req, res) => {
+  const data = req.body.formValues;
+  // const query = await db.query("SELECT * FROM usercomments");
+  const query = await db.query(
+    `INSERT INTO usercomments (id, comment, user_id) VALUES ($1, $2, $3)`,
+    [data.id, data.comment, data.user_id]
+  );
+
+  
   await res.json(query.rows);
 });
 
