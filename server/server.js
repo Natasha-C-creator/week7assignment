@@ -1,3 +1,9 @@
+//I need a route to CREATE new data in the database --> the new data here is stored in the body object
+
+//===========================================
+
+//?STRETCH GOAL: I want to DELETE data from the database --> use params
+
 import express from "express";
 const app = express();
 
@@ -28,13 +34,44 @@ app.get("/Users", async (req, res) => {
   await res.json(query.rows);
 });
 
-app.post("/UserComments", async (req, res) => {
-  //   const data = req.body.formValues;
+app.post("/Users", async (req, res) => {
+  try {
+    const { firstName, surname, location, side } = req.body;
+    const result = await db.query(
+      `INSERT INTO Users (first_name, surname, location, side) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [firstName, surname, location, side]
+    );
+    const newUser = result.rows[0];
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ message: "Error creating user account." });
+  }
+});
+
+app.get("/UserComments", async (req, res) => {
   const query = await db.query("SELECT * FROM UserComments");
-  //   const query = await db.query(
-  //     `INSERT INTO UserComments (id, comments) VALUES ($1, $2, $3, $4)`,
-  //     [data.id, data.first_name, data.surname, data.comments]
-  //   );
-  //   await res.json(query.rows);
-  res.json({ message: "Comments loaded" });
+  await res.json(query.rows);
+});
+
+app.post("/UserComments", async (req, res) => {
+  const data = req.body.formValues;
+  const query = await db.query(
+    `INSERT INTO UserComments (id, comments) VALUES ($1, $2)`,
+    [data.id, data.comments]
+  );
+  await res.json(query.rows);
+});
+
+app.post("/UserComments", async (req, res) => {
+  const { userId, comment } = req.body;
+  const query = await db.query(
+    `INSERT INTO UserComments (id, comments) VALUES ($1, $2) RETURNING *`,
+    [userId, comment]
+  );
+  const newComment = query.rows[0]; // Get the newly inserted comment
+    res.status(201).json(newComment); // Respond with the new comment data
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.status(500).json({ message: "Error adding comment." });
 });
