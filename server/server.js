@@ -1,14 +1,14 @@
-//I need a route to CREATE new data in the database --> the new data here is stored in the body object
-
-//===========================================
-
-//?STRETCH GOAL: I want to DELETE data from the database --> use params
-
 import express from "express";
 const app = express();
 
 import cors from "cors";
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 import pg from "pg";
 import dotenv from "dotenv";
@@ -29,66 +29,40 @@ const db = new pg.Pool({
   connectionString: dbConnectionString,
 });
 
+app.get("/UserComments", async (req, res) => {
+  const query = await db.query("SELECT * FROM UserComments");
+  await res.json(query.rows);
+});
+
 app.get("/Users", async (req, res) => {
   const query = await db.query("SELECT * FROM Users");
   await res.json(query.rows);
 });
 
-app.post("/Users", async (req, res) => {
+app.post("/users", async (req, res) => {
+  console.log("Request body:", req.body);
   try {
     const { firstName, surname, location, side } = req.body;
-    const result = await db.query(
-      `INSERT INTO Users (first_name, surname, location, side) VALUES ($1, $2, $3, $4) RETURNING *`,
+    const query = await db.query(
+      `INSERT INTO Users (firstName, surname, location, side) VALUES ($1, $2, $3, $4) RETURNING *`,
       [firstName, surname, location, side]
     );
-    const newUser = result.rows[0];
-    res.status(201).json(newUser);
+    res.status(201).json(query.rows[0]);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Error creating user account." });
   }
 });
 
-app.get("/UserComments", async (req, res) => {
+app.post("/UserComments", async (req, res) => {
+  //   const data = req.body.formValues;
   const query = await db.query("SELECT * FROM UserComments");
-
-  
-app.get("/usercomments", async (req, res) => {
-  const data = req.body.formValues;
-  const query = await db.query("SELECT * FROM usercomments");
-  await res.json(query.rows);
+  //   const query = await db.query(
+  //     `INSERT INTO UserComments (id, comments) VALUES ($1, $2, $3, $4)`,
+  //     [data.id, data.firstName, data.surname, data.comments]
+  //   );
+  //   await res.json(query.rows);
+  res.json({ message: "Comments loaded" });
 });
 
-app.post("/usercomments", async (req, res) => {
-  const data = req.body.formValues;
-  // const query = await db.query("SELECT * FROM usercomments");
-  const query = await db.query(
-    `INSERT INTO usercomments (id, comment, user_id) VALUES ($1, $2, $3)`,
-    [data.id, data.comment, data.user_id]
-  );
-
-  
-  await res.json(query.rows);
-});
-
-app.post("/UserComments", async (req, res) => {
-  const data = req.body.formValues;
-  const query = await db.query(
-    `INSERT INTO UserComments (id, comments) VALUES ($1, $2)`,
-    [data.id, data.comments]
-  );
-  await res.json(query.rows);
-});
-
-app.post("/UserComments", async (req, res) => {
-  const { userId, comment } = req.body;
-  const query = await db.query(
-    `INSERT INTO UserComments (id, comments) VALUES ($1, $2) RETURNING *`,
-    [userId, comment]
-  );
-  const newComment = query.rows[0]; // Get the newly inserted comment
-    res.status(201).json(newComment); // Respond with the new comment data
-  } catch (error) {
-    console.error("Error adding comment:", error);
-    res.status(500).json({ message: "Error adding comment." });
-});
+console.log("Database connection string:", process.env.DB_CONN_STRING);

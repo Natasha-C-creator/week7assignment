@@ -16,7 +16,7 @@
 // import dotenv from 'dotenv'
 // dotenv.config();
 
-db.query(`INSERT INTO users (first_name, surname, location) VALUES ($1, $2)`, [
+db.query(`INSERT INTO users (firstName, surname, location) VALUES ($1, $2)`, [
   "Tash",
   "C",
   "Ipswich",

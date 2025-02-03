@@ -1,16 +1,29 @@
 import "./AddCommentForm.css";
 import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
+
+const supabase = createClient(
+  "https://lkyksvqmbwigquiebvnu.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxreWtzdnFtYndpZ3F1aWVidm51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgzMjkxNjgsImV4cCI6MjA1MzkwNTE2OH0.wkBoQMyiQtIls4WHufxbyW237bIww0LTN5UDHFctd4w"
+);
 
 export default function AddCommentForm() {
   const [userId, setUserId] = useState("");
   const [comment, setComment] = useState("");
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("/Users");
-      const data = await response.json();
-      setUsers(data); // Set the fetched users
+      const { data, error } = await supabase
+        .from("users")
+        .select("id, firstName, surname");
+      if (error) {
+        console.error("Error fetching users:", error);
+      } else {
+        setUsers(data);
+      }
     };
     fetchUsers();
   }, []);
@@ -19,23 +32,31 @@ export default function AddCommentForm() {
     event.preventDefault();
 
     const formData = {
-      userId,
+      user_id: userId,
       comment,
     };
 
-    const response = await fetch("/UserComments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const { data, error } = await supabase
+      .from("usercomments")
+      .insert([formData]);
 
-    if (response.ok) {
-      alert("Your comment was added!");
-      setComment(""); // Reset the form fields
-    } else {
+    // const response = await fetch("/UserComments", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // });
+
+    if (error) {
+      console.error("Error adding comment:", error);
       alert("Error adding comment. Please try again.");
+    } else {
+      alert("Your comment was added!");
+
+      navigate("/components/Comments");
+
+      setComment("");
     }
   };
 
@@ -54,7 +75,7 @@ export default function AddCommentForm() {
         <option value="">Select User</option>
         {users.map((user) => (
           <option key={user.id} value={user.id}>
-            {user.first_name} {user.surname}
+            {user.firstName} {user.surname}
           </option>
         ))}
       </select>
@@ -73,24 +94,3 @@ export default function AddCommentForm() {
     </form>
   );
 }
-
-//     </form>
-
-//       <h1 className="title">{props.title}</h1>
-//       <h3 className="content">{props.content}</h3>
-//       <div className="button-container">{props.children}</div>
-//       <form id="addCommentForm" className="AddCommentForm">
-//         <select id="user-select"></select>
-//         <textarea
-//           className="comment"
-//           placeholder="Write a comment"
-//           required
-//         ></textarea>
-//         {/* <form ref="form" onSubmit={this.handleSubmit}> */}
-//         <button type="submit" id="button">
-//           Submit
-//         </button>
-//       </form>
-//     </>
-//   );
-// }
